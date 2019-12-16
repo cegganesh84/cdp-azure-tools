@@ -39,6 +39,7 @@
     {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
       "name": "[parameters('virtualNetworks_cdp_name')]",
       "properties": {
         "addressSpace": {
@@ -65,6 +66,7 @@
     {
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
       "name": "[concat(parameters('virtualNetworks_cdp_name'), '/default')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_cdp_name'))]"
@@ -79,6 +81,7 @@
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
+      "location": "[parameters('location')]",
       "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -91,15 +94,17 @@
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
+      "location": "[parameters('location')]",
       "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]",
       "properties": {
-        "roleDefinitionId": "[array(variables('VMC'), variables('MIO'))]",
+        "roleDefinitionId": "[createArray(variables('VMC'), variables('MIO'))]",
         "scope": "[resourceGroup().id]"
       }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
+      "location": "[parameters('location')]",
       "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -112,6 +117,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-04-01",
+      "location": "[parameters('location')]",
       "name": "[parameters('storageAccounts_cdp_name')]",
       "sku": {
         "name": "Standard_RAGRS",
