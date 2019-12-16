@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "rg_cdp_name": {
@@ -37,19 +37,9 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2019-09-01",
-      "location": "[parameters('location')]",
-      "name": "[parameters('rg_cdp_name')]",
-      "properties": {}
-    },
-    {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-09-01",
       "name": "[parameters('virtualNetworks_cdp_name')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
-      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -88,7 +78,7 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -100,11 +90,8 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
-      ],
       "properties": {
         "roleDefinitionId": "[array(variables('VMC'), variables('MIO'))]",
         "scope": "[resourceGroup().id]"
@@ -112,7 +99,7 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -124,11 +111,8 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2019-04-01",
       "name": "[parameters('storageAccounts_cdp_name')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
-      ],
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
@@ -159,7 +143,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2019-04-01",
       "name": "[concat(parameters('storageAccounts_cdp_name'), '/default')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -175,7 +159,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-      "apiVersion": "2019-09-01",
+      "apiVersion": "2019-04-01",
       "name": "[concat(parameters('storageAccounts_cdp_name'), '/default/data')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_cdp_name'), 'default')]",
