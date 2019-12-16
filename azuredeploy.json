@@ -30,21 +30,21 @@
     },
     "adminIdentity_guid": {
       "type": "string",
-      "defaultValue": "[newGuid()]]",
+      "defaultValue": "[newGuid()]",
       "metadata": {
         "description": "Input string for new GUID associated with assigning built in role types"
       }
     },
     "loggerIdentity_guid": {
       "type": "string",
-      "defaultValue": "[newGuid()]]",
+      "defaultValue": "[newGuid()]",
       "metadata": {
         "description": "Input string for new GUID associated with assigning built in role types"
       }
     },
     "assumerIdentity_guid": {
       "type": "string",
-      "defaultValue": "[newGuid()]]",
+      "defaultValue": "[newGuid()]",
       "metadata": {
         "description": "Input string for new GUID associated with assigning built in role types"
       }
