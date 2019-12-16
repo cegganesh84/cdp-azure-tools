@@ -27,6 +27,13 @@
     "userAssignedIdentities_assumerIdentity_name": {
       "defaultValue": "assumerIdentity",
       "type": "String"
+    },
+    "guid": {
+      "type": "string",
+      "defaultValue": "[guid(resourceGroup().id)]",
+      "metadata": {
+        "description": "Input string for new GUID associated with assigning built in role types"
+      }
     }
   },
   "variables": {
@@ -85,20 +92,38 @@
       "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2017-09-01",
+      "name": "[newGuid()]",
+      "dependsOn": [
+        "[parameters('userAssignedIdentities_adminIdentity_name')]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDOwner')]",
-        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]",
+        "principalId": "[reference(parameters('userAssignedIdentities_adminIdentity_name')).principalId]"
       }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
-      "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]",
+      "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2017-09-01",
+      "name": "[newGuid()]",
+      "dependsOn": [
+        "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+      ],
       "properties": {
         "roleDefinitionId": "[createArray(variables('VMC'), variables('MIO'))]",
-        "scope": "[resourceGroup().id]"
+        "scope": "[resourceGroup().id]",
+        "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
       }
     },
     {
@@ -108,10 +133,19 @@
       "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2017-09-01",
+      "name": "[newGuid()]",
+      "dependsOn": [
+        "[parameters('userAssignedIdentities_loggerIdentity_name')]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDContributor')]",
-        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]",
+        "principalId": "[reference(parameters('userAssignedIdentities_loggerIdentity_name')).principalId]"
       }
     },
     {
