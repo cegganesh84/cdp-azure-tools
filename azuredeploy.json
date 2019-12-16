@@ -2,10 +2,10 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "rgName": {
+    "rg_cdp_name": {
       "type": "string"
     },
-    "rgLocation": {
+    "location": {
       "type": "string"
     },
     "virtualNetworks_cdp_name": {
@@ -40,17 +40,17 @@
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
-      "location": "[parameters('rgLocation')]",
-      "name": "[parameters('rgName')]",
+      "location": "[parameters('location')]",
+      "name": "[parameters('rg_cdp_name')]",
       "properties": {}
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-09-01",
       "name": "[parameters('virtualNetworks_cdp_name')]",
-      "resourceGroup": "[parameters('rgName')]",
+      "resourceGroup": "[parameters('rg_cdp_name')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
       ],
       "properties": {
         "addressSpace": {
@@ -92,51 +92,48 @@
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
-      "resourceGroup": "[parameters('rgName')]",
+      "resourceGroup": "[parameters('rg_cdp_name')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       ],
       "properties": {
-        "tenantId": "f636e1c4-18a5-4f8a-9e41-e247bae1387d",
-        "principalId": "42f93519-6ff0-48f4-b4e0-2824157cde2b",
-        "clientId": "417aa952-bdbb-481d-9435-2b053f892312"
+        "roleDefinitionId": "[variables('SBDOwner')]",
+        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]",
-      "resourceGroup": "[parameters('rgName')]",
+      "resourceGroup": "[parameters('rg_cdp_name')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
       ],
       "properties": {
-        "tenantId": "f636e1c4-18a5-4f8a-9e41-e247bae1387d",
-        "principalId": "9e995d2d-62e3-49ac-8b62-022283fc857e",
-        "clientId": "546fd3a8-8401-40fe-a1ec-be0fd26fa51b"
+        "roleDefinitionId": "[variables('VMC'), variables('MIO')]",
+        "scope": "[resourceGroup().id]"
       }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
-      "resourceGroup": "[parameters('rgName')]",
+      "resourceGroup": "[parameters('rg_cdp_name')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       ],
       "properties": {
-        "tenantId": "f636e1c4-18a5-4f8a-9e41-e247bae1387d",
-        "principalId": "b677a5bc-62d9-4a7d-9cb9-1374b7b94756",
-        "clientId": "22413ad2-484c-4cbf-a623-87611821146d"
+        "roleDefinitionId": "[variables('SBDContributor')]",
+        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-04-01",
       "name": "[parameters('storageAccounts_cdp_name')]",
-      "resourceGroup": "[parameters('rgName')]",
+      "resourceGroup": "[parameters('rg_cdp_name')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
       ],
       "sku": {
         "name": "Standard_RAGRS",
