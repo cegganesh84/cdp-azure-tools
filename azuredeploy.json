@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "rg_cdp_name": {
@@ -38,7 +38,7 @@
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2018-05-01",
+      "apiVersion": "2019-09-01",
       "location": "[parameters('location')]",
       "name": "[parameters('rg_cdp_name')]",
       "properties": {}
@@ -88,7 +88,7 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2018-11-30",
+      "apiVersion": "2019-09-01",
       "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -100,7 +100,7 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2018-11-30",
+      "apiVersion": "2019-09-01",
       "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
@@ -112,7 +112,7 @@
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "apiVersion": "2018-11-30",
+      "apiVersion": "2019-09-01",
       "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -124,7 +124,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2019-04-01",
+      "apiVersion": "2019-09-01",
       "name": "[parameters('storageAccounts_cdp_name')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rg_cdp_name'))]"
@@ -159,7 +159,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
-      "apiVersion": "2019-04-01",
+      "apiVersion": "2019-09-01",
       "name": "[concat(parameters('storageAccounts_cdp_name'), '/default')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
@@ -175,7 +175,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-      "apiVersion": "2019-04-01",
+      "apiVersion": "2019-09-01",
       "name": "[concat(parameters('storageAccounts_cdp_name'), '/default/data')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_cdp_name'), 'default')]",
