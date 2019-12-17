@@ -109,17 +109,18 @@
       ]
     },
     {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2017-09-01",
+      "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
       "name": "[parameters('adminIdentity_guid')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_adminIdentity_name')]"
+        "[parameters('userAssignedIdentities_adminIdentity_name')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDOwner')]",
-        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]",
         "principalId": "[reference(parameters('userAssignedIdentities_adminIdentity_name')).principalId]"
-      }
+      },
+      "location": "[parameters('location')]"
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -135,10 +136,11 @@
         "[parameters('userAssignedIdentities_assumerIdentity_name')]"
       ],
       "properties": {
-        "roleDefinitionId": "[createArray(variables('VMC'), variables('MIO'))]",
+        "roleDefinitionId": "createArray(variables('VMC'), variables('MIO'))",
         "scope": "[resourceGroup().id]",
         "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
-      }
+      },
+      "location": "[parameters('location')]"
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -150,17 +152,18 @@
       ]
     },
     {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2017-09-01",
+      "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
       "name": "[parameters('loggerIdentity_guid')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_loggerIdentity_name')]"
+        "[parameters('userAssignedIdentities_loggerIdentity_name')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDContributor')]",
-        "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]",
         "principalId": "[reference(parameters('userAssignedIdentities_loggerIdentity_name')).principalId]"
-      }
+      },
+      "location": "[parameters('location')]"
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
