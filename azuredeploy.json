@@ -42,7 +42,14 @@
         "description": "Input string for new GUID associated with assigning built in role types"
       }
     },
-    "assumerIdentity_guid": {
+    "assumerIdentity_guid_1": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "metadata": {
+        "description": "Input string for new GUID associated with assigning built in role types"
+      }
+    },
+    "assumerIdentity_guid_2": {
       "type": "string",
       "defaultValue": "[newGuid()]",
       "metadata": {
@@ -109,7 +116,7 @@
       ]
     },
     {
-      "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+      "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
       "name": "[parameters('adminIdentity_guid')]",
       "dependsOn": [
@@ -130,17 +137,29 @@
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2017-09-01",
-      "name": "[parameters('assumerIdentity_guid')]",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[parameters('assumerIdentity_guid_1')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[parameters('userAssignedIdentities_assumerIdentity_name')]"
       ],
       "properties": {
-        "roleDefinitionId": "createArray(variables('VMC'), variables('MIO'))",
-        "scope": "[resourceGroup().id]",
+        "roleDefinitionId": "[variables('VMC')]",
         "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
-      },
-      "location": "[parameters('location')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[parameters('assumerIdentity_guid_2')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('MIO')]",
+        "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
+      }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -152,7 +171,7 @@
       ]
     },
     {
-      "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+      "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
       "name": "[parameters('loggerIdentity_guid')]",
       "dependsOn": [
