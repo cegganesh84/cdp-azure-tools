@@ -2,58 +2,73 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "rg_cdp_name": {
-      "type": "string"
-    },
     "location": {
-      "type": "string"
-    },
-    "virtualNetworks_cdp_name": {
-      "defaultValue": "cdp",
-      "type": "String"
-    },
-    "storageAccounts_cdp_name": {
-      "defaultValue": "cdp",
-      "type": "String"
-    },
-    "userAssignedIdentities_adminIdentity_name": {
-      "defaultValue": "adminIdentity",
-      "type": "String"
-    },
-    "userAssignedIdentities_loggerIdentity_name": {
-      "defaultValue": "loggerIdentity",
-      "type": "String"
-    },
-    "userAssignedIdentities_assumerIdentity_name": {
-      "defaultValue": "assumerIdentity",
-      "type": "String"
-    },
-    "adminIdentity_guid": {
       "type": "string",
-      "defaultValue": "[newGuid()]",
       "metadata": {
-        "description": "Input string for new GUID associated with assigning built in role types"
+        "description": "List of available Azure regions to choose from 'westus,eastus,northeurope,westeurope,eastasia,southeastasia,northcentralus,southcentralus,centralus,eastus2,japaneast,japanwest,brazilsouth,australiaeast,australiasoutheast,centralindia,southindia,westindia,canadacentral,canadaeast,westcentralus,westus2,ukwest,uksouth,koreacentral,koreasouth,francecentral,australiacentral,southafricanorth,uaenorth'."
       }
     },
-    "loggerIdentity_guid": {
+    "virtualNetworkName": {
+      "defaultValue": "cdppoc",
       "type": "string",
-      "defaultValue": "[newGuid()]",
       "metadata": {
-        "description": "Input string for new GUID associated with assigning built in role types"
+        "description": "Name of Microsoft Virtual Networks."
       }
     },
-    "assumerIdentity_guid_1": {
+    "storageAccountName": {
+      "defaultValue": "cdppoc",
       "type": "string",
-      "defaultValue": "[newGuid()]",
       "metadata": {
-        "description": "Input string for new GUID associated with assigning built in role types"
+        "description": "Name of Microsoft Storage Account."
       }
     },
-    "assumerIdentity_guid_2": {
+    "adminIdentityName": {
+      "defaultValue": "cdppocAdminIdentity",
+      "type": "string",
+      "metadata": {
+        "description": "Name of Azure Managed Identity to access data."
+      }
+    },
+    "loggerIdentityName": {
+      "defaultValue": "cdppocLoggerIdentity",
+      "type": "string",
+      "metadata": {
+        "description": "Name of Azure Managed Identity to write logs."
+      }
+    },
+    "assumerIdentityName": {
+      "defaultValue": "cdppocAssumerIdentity",
+      "type": "string",
+      "metadata": {
+        "description": "Name of Azure Managed Identity that VM will assume."
+      }
+    },
+    "adminIdentityRAName": {
       "type": "string",
       "defaultValue": "[newGuid()]",
       "metadata": {
-        "description": "Input string for new GUID associated with assigning built in role types"
+        "description": "Name for the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
+      }
+    },
+    "loggerIdentityRAName": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "metadata": {
+        "description": "Name for the logger identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
+      }
+    },
+    "assumerIdentityRAName1": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "metadata": {
+        "description": "Name for the one of the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
+      }
+    },
+    "assumerIdentityRAName2": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "metadata": {
+        "description": "Name for the one of the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
       }
     }
   },
@@ -68,7 +83,7 @@
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-09-01",
       "location": "[parameters('location')]",
-      "name": "[parameters('virtualNetworks_cdp_name')]",
+      "name": "[parameters('virtualNetworkName')]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -95,9 +110,9 @@
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "apiVersion": "2019-09-01",
       "location": "[parameters('location')]",
-      "name": "[concat(parameters('virtualNetworks_cdp_name'), '/default')]",
+      "name": "[concat(parameters('virtualNetworkName'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_cdp_name'))]"
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
       ],
       "properties": {
         "addressPrefix": "10.2.0.0/24",
@@ -110,22 +125,22 @@
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
-      "name": "[parameters('userAssignedIdentities_adminIdentity_name')]",
+      "name": "[parameters('adminIdentityName')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ]
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('adminIdentity_guid')]",
+      "name": "[parameters('adminIdentityRAName')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_adminIdentity_name')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[parameters('adminIdentityName')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDOwner')]",
-        "principalId": "[reference(parameters('userAssignedIdentities_adminIdentity_name')).principalId]"
+        "principalId": "[reference(parameters('adminIdentityName')).principalId]"
       },
       "location": "[parameters('location')]"
     },
@@ -133,54 +148,54 @@
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
-      "name": "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+      "name": "[parameters('assumerIdentityName')]"
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('assumerIdentity_guid_1')]",
+      "name": "[parameters('assumerIdentityRAName1')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+        "[parameters('assumerIdentityName')]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('VMC')]",
-        "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
+        "principalId": "[reference(parameters('assumerIdentityName')).principalId]"
       }
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('assumerIdentity_guid_2')]",
+      "name": "[parameters('assumerIdentityRAName2')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_assumerIdentity_name')]"
+        "[parameters('assumerIdentityName')]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('MIO')]",
-        "principalId": "[reference(parameters('userAssignedIdentities_assumerIdentity_name')).principalId]"
+        "principalId": "[reference(parameters('assumerIdentityName')).principalId]"
       }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
-      "name": "[parameters('userAssignedIdentities_loggerIdentity_name')]",
+      "name": "[parameters('loggerIdentityName')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ]
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('loggerIdentity_guid')]",
+      "name": "[parameters('loggerIdentityRAName')]",
       "dependsOn": [
-        "[parameters('userAssignedIdentities_loggerIdentity_name')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[parameters('loggerIdentityName')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('SBDContributor')]",
-        "principalId": "[reference(parameters('userAssignedIdentities_loggerIdentity_name')).principalId]"
+        "principalId": "[reference(parameters('loggerIdentityName')).principalId]"
       },
       "location": "[parameters('location')]"
     },
@@ -188,7 +203,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-04-01",
       "location": "[parameters('location')]",
-      "name": "[parameters('storageAccounts_cdp_name')]",
+      "name": "[parameters('storageAccountName')]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
@@ -220,9 +235,9 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
       "apiVersion": "2019-04-01",
-      "name": "[concat(parameters('storageAccounts_cdp_name'), '/default')]",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ],
       "properties": {
         "cors": {
@@ -236,10 +251,10 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2019-04-01",
-      "name": "[concat(parameters('storageAccounts_cdp_name'), '/default/data')]",
+      "name": "[concat(parameters('storageAccountName'), '/default/data')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_cdp_name'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_cdp_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ],
       "properties": {
         "publicAccess": "None"
