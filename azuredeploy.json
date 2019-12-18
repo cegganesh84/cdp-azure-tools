@@ -42,27 +42,7 @@
       "metadata": {
         "description": "Name of Azure Managed Identity that VM will assume."
       }
-    },
-    "adminIdentityRAName": {
-      "type": "string",
-      "defaultValue": "[newGuid()]",
-      "metadata": {
-        "description": "Name for the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
-      }
-    },
-    "loggerIdentityRAName": {
-      "type": "string",
-      "defaultValue": "[newGuid()]",
-      "metadata": {
-        "description": "Name for the logger identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
-      }
     }
-  },
-  "variables": {
-    "SBDOwner": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]",
-    "SBDContributor": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
-    "MIO": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'f1a07417-d97a-45cb-824c-7a7467783830')]",
-    "VMC": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '9980e02c-c2be-4d73-94e8-173b1dc7cf3c')]"
   },
   "resources": [
     {
@@ -117,20 +97,6 @@
       ]
     },
     {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('adminIdentityRAName')]",
-      "dependsOn": [
-        "[parameters('adminIdentityName')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[variables('SBDOwner')]",
-        "principalId": "[reference(parameters('adminIdentityName')).principalId]"
-      },
-      "location": "[parameters('location')]"
-    },
-    {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
@@ -144,20 +110,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
       ]
-    },
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('loggerIdentityRAName')]",
-      "dependsOn": [
-        "[parameters('loggerIdentityName')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[variables('SBDContributor')]",
-        "principalId": "[reference(parameters('loggerIdentityName')).principalId]"
-      },
-      "location": "[parameters('location')]"
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
