@@ -28,6 +28,13 @@
       "metadata": {
         "description": "Name of Azure Managed Identity that VM will assume."
       }
+    },
+    "resourceGroupName": {
+      "defaultValue": "cdppoc",
+      "type": "string",
+      "metadata": {
+        "description": "Name of Azure Resource Group that assumer identity is part of."
+      }
     }
   },
   "variables": {
@@ -39,7 +46,10 @@
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "name": "[parameters('assumerIdentityName')]",
-      "location": "[parameters('location')]"
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('resourceGroupName'))]"
+      ]
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",

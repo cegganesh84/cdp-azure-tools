@@ -14,8 +14,4 @@ ARM template that deploys essential Azure resources for Cloudera CDP environment
 ## Assumer identity role assignment
 
 `
-az deployment create
-  --name assumerRoleAssignment
-  --location westus2
-  --template-uri https://raw.githubusercontent.com/cegganesh84/cdp-azure-tools/master/assumerRoleAssignment.json
-`
+az deployment create --name assumerRoleAssignment --location westus2 --template-uri https://raw.githubusercontent.com/cegganesh84/cdp-azure-tools/master/assumerRoleAssignment.json --parameters '{"location": {"value": "westus2"},"assumerIdentityName": {"value": "cdppocAssumerIdentity"},"resourceGroupName": {"value": "cdppoc"}}'`
