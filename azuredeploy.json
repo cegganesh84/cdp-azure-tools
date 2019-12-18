@@ -56,20 +56,6 @@
       "metadata": {
         "description": "Name for the logger identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
       }
-    },
-    "assumerIdentityRAName1": {
-      "type": "string",
-      "defaultValue": "[newGuid()]",
-      "metadata": {
-        "description": "Name for the one of the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
-      }
-    },
-    "assumerIdentityRAName2": {
-      "type": "string",
-      "defaultValue": "[newGuid()]",
-      "metadata": {
-        "description": "Name for the one of the assumer identity role assignment. It can be any GUID. Leave it as [newGuid()] to generate a new GUID."
-      }
     }
   },
   "variables": {
@@ -149,32 +135,6 @@
       "apiVersion": "2018-11-30",
       "location": "[parameters('location')]",
       "name": "[parameters('assumerIdentityName')]"
-    },
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('assumerIdentityRAName1')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[parameters('assumerIdentityName')]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[variables('VMC')]",
-        "principalId": "[reference(parameters('assumerIdentityName')).principalId]"
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[parameters('assumerIdentityRAName2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[parameters('assumerIdentityName')]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[variables('MIO')]",
-        "principalId": "[reference(parameters('assumerIdentityName')).principalId]"
-      }
     },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
