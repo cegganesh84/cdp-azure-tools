@@ -23,11 +23,17 @@ az role assignment create --assignee <prinicipal-id> --role '9980e02c-c2be-4d73-
 ## Fine grained logger/admin identity role assingment
 
 ```bash
-# Assign Storage Blob Data Contributor role to the loggerIdentity principal at filesystem scope
+# Assign Storage Blob Data Contributor role to the loggerIdentity principal at logs filesystem scope
 az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-a403-e96b0029c9fe' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/logs"
 ```
 
 ```bash
-# Assign Storage Blob Data Owner role to the adminIdentity principal at filesystem scope
+# Assign Storage Blob Data Owner role to the adminIdentity principal at logs/data filesystem scope
+az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/data"
+az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/logs"
+```
+
+```bash
+# Assign Storage Blob Data Owner role to the rangerIdentity principal at data filesystem scope
 az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/data"
 ```
