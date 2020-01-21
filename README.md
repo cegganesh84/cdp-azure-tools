@@ -11,6 +11,11 @@ ARM template that deploys essential Azure resources for Cloudera CDP environment
     <img src="http://azuredeploy.net/deploybutton.png" />
 </a>
 
+---
+
+**Azure RM templates does not support role assignments at a scope other than resource group. So the
+following role assignments need to be performed via CLI or UI.**
+
 ## Assumer identity role assignment
 
 ```bash
@@ -20,7 +25,7 @@ az role assignment create --assignee <prinicipal-id> --role 'f1a07417-d97a-45cb-
 az role assignment create --assignee <prinicipal-id> --role '9980e02c-c2be-4d73-94e8-173b1dc7cf3c' --scope '/subscriptions/<subscription-id>'
 ```
 
-## Fine grained logger/admin identity role assingment
+## Fine grained logger/dataAccess/ranger identity role assignment
 
 ```bash
 # Assign Storage Blob Data Contributor role to the loggerIdentity principal at logs filesystem scope
@@ -28,7 +33,7 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
 ```
 
 ```bash
-# Assign Storage Blob Data Owner role to the adminIdentity principal at logs/data filesystem scope
+# Assign Storage Blob Data Owner role to the dataAccessIdentity principal at logs/data filesystem scope
 az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/data"
 az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/logs"
 ```
@@ -37,3 +42,7 @@ az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-
 # Assign Storage Blob Data Contributor role to the rangerIdentity principal at data filesystem scope
 az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-a403-e96b0029c9fe' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/data"
 ```
+
+# Changelog
+
+1. Rename admin to dataAccess. (02/20/2020)

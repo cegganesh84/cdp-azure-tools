@@ -23,7 +23,7 @@
         "description": "Name of Microsoft Storage Account."
       }
     },
-    "adminIdentityName": {
+    "dataAccessIdentityName": {
       "defaultValue": "[concat(parameters('environmentName'), '-AdminIdentity')]",
       "type": "String",
       "metadata": {
@@ -104,7 +104,7 @@
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
-      "name": "[parameters('adminIdentityName')]",
+      "name": "[parameters('dataAccessIdentityName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
