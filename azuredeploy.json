@@ -24,7 +24,7 @@
       }
     },
     "dataAccessIdentityName": {
-      "defaultValue": "[concat(parameters('environmentName'), '-AdminIdentity')]",
+      "defaultValue": "[concat(parameters('environmentName'), '-DataAccessIdentity')]",
       "type": "String",
       "metadata": {
         "description": "Name of Azure Managed Identity to access data."
