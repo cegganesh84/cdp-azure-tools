@@ -45,7 +45,7 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
 
 ---
 
-## Azure quickstart template with cluster connectivity manager
+## Azure quickstart template for cluster connectivity manager
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazureccmdeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
