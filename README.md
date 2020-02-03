@@ -43,6 +43,15 @@ az role assignment create --assignee <prinicipal-id> --role 'b7e6dc6d-f1e8-4753-
 az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-a403-e96b0029c9fe' --scope "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<sa-name>/blobServices/default/containers/data"
 ```
 
+---
+
+Azure quickstart template with cluster connectivity manager
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazureccmdeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png" />
+</a>
+
+
 # Changelog
 
 1. Rename admin to dataAccess. (02/20/2020)
