@@ -25,9 +25,7 @@
     },
     "networkAccessCIDR": {
       "type": "String",
-      "defaultValue": [
-        "0.0.0.0/0"
-      ],
+      "defaultValue": "0.0.0.0/0",
       "metadata": {
         "description": "CIDR block representing the address space of the corporate network's Subnet"
       }
