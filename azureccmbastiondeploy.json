@@ -17,7 +17,7 @@
       }
     },
     "publicIpAddressSku": {
-      "defaultValue": "Basic",
+      "defaultValue": "Standard",
       "type": "String",
       "metadata": {
         "description": "Public IP address SKU of bastion host."
