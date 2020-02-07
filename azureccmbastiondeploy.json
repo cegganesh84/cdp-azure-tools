@@ -360,7 +360,7 @@
             "name": "ipconfig1",
             "properties": {
               "subnet": {
-                "id": "[concat(parameters('virtualNetworkName'), '/default')]"
+                "id": "[variables('subnetRef')]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "publicIpAddress": {
