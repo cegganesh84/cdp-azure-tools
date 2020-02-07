@@ -51,6 +51,14 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
     <img src="http://azuredeploy.net/deploybutton.png" />
 </a>
 
+---
+
+## Azure quickstart template for cluster connectivity manager with bastion host for magic SSO
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazureccmbastiondeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png" />
+</a>
+
 
 # Changelog
 
