@@ -350,7 +350,7 @@
       "name": "[parameters('networkInterfaceName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-07-01",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
       ],
@@ -378,7 +378,7 @@
       "name": "[parameters('publicIpAddressName')]",
       "type": "Microsoft.Network/publicIpAddresses",
       "apiVersion": "2019-02-01",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
       },
