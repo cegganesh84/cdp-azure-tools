@@ -9,6 +9,27 @@
         "description": "Name of the CDP Environment."
       }
     },
+    "adminUsername": {
+      "defaultValue": null,
+      "type": "String",
+      "metadata": {
+        "description": "Admin user name for SSH into the bastion host."
+      }
+    },
+    "adminPublicKey": {
+      "defaultValue": null,
+      "type": "String",
+      "metadata": {
+        "description": "Public key to be put in the authorized keys file in bastion host."
+      }
+    },
+    "networkAccessCIDR": {
+      "type": "String",
+      "defaultValue": "0.0.0.0/0",
+      "metadata": {
+        "description": "CIDR block representing the address space of the corporate network's Subnet"
+      }
+    },
     "publicIpAddressType": {
       "defaultValue": "Static",
       "type": "String",
@@ -35,20 +56,6 @@
       "type": "String",
       "metadata": {
         "description": "OS Disk Type of bastion host."
-      }
-    },
-    "adminUsername": {
-      "defaultValue": null,
-      "type": "String",
-      "metadata": {
-        "description": "Admin user name for SSH into the bastion host."
-      }
-    },
-    "adminPublicKey": {
-      "defaultValue": null,
-      "type": "String",
-      "metadata": {
-        "description": "Public key to be put in the authorized keys file in bastion host."
       }
     },
     "virtualNetworkName": {
@@ -84,13 +91,6 @@
       "type": "String",
       "metadata": {
         "description": "Name of Microsoft Network security group."
-      }
-    },
-    "networkAccessCIDR": {
-      "type": "String",
-      "defaultValue": "0.0.0.0/0",
-      "metadata": {
-        "description": "CIDR block representing the address space of the corporate network's Subnet"
       }
     },
     "storageAccountName": {
