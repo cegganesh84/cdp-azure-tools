@@ -59,14 +59,14 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-1. This template is same as above except that it creates an extra security group which allows port 22 and 443 access to networkAccessCIDR.
+1. This template is same as above, except, it creates a security group which only allows port 22 and 443 access to networkAccessCIDR for the created virtual network.
 2. Magic SSO will not work because of the air gapped installation of the clusters.
 
 ---
 
 ## Azure quickstart template for cluster connectivity manager with bastion host for magic SSO
 
-:warning: Creates a bastion host with public ip address. Strictly for proof-of-concept.
+:warning: Creates a bastion host with public ip address. Strictly for proof-of-concept. :warning:
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazureccmbastiondeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
@@ -76,8 +76,10 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-1. This template is same as above except that it creates an extra bastion host with public ip address for Magic SSO purposes.
-2. For Magic SSO to work, run the following commands in two terminals. Assumes Mac OS for chrome binary.
+1. This template is same as above, except, it creates an extra bastion host (Azure spot instance) with public ip address for Magic SSO purposes.
+2. For Magic SSO to work, run the following commands in two separate terminals. Assumes Mac OS for chrome binary.
+3. The second command will open up a new chrome browser with socks proxy settings pointing to the tunnel set by the first command.
+4. You can login to CDP Public Cloud and can view links from the Datalake and Datahub clusters.
 
 ```shell script
 ssh -i adminPrivateKey -CND 1080 adminUsername@publicIpAddress

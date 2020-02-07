@@ -10,7 +10,7 @@
       }
     },
     "publicIpAddressType": {
-      "defaultValue": "Dynamic",
+      "defaultValue": "Static",
       "type": "String",
       "metadata": {
         "description": "Public IP address type of bastion host."
