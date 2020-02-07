@@ -9,6 +9,48 @@
         "description": "Name of the CDP Environment."
       }
     },
+    "publicIpAddressType": {
+      "defaultValue": "Dynamic",
+      "type": "String",
+      "metadata": {
+        "description": "Public IP address type of bastion host."
+      }
+    },
+    "publicIpAddressSku": {
+      "defaultValue": "Basic",
+      "type": "String",
+      "metadata": {
+        "description": "Public IP address SKU of bastion host."
+      }
+    },
+    "virtualMachineSize": {
+      "defaultValue": "Standard_D2_v3",
+      "type": "String",
+      "metadata": {
+        "description": "Virtual machine size of bastion host."
+      }
+    },
+    "osDiskType": {
+      "defaultValue": "StandardSSD_LRS",
+      "type": "String",
+      "metadata": {
+        "description": "OS Disk Type of bastion host."
+      }
+    },
+    "adminUsername": {
+      "defaultValue": null,
+      "type": "String",
+      "metadata": {
+        "description": "Admin user name for SSH into the bastion host."
+      }
+    },
+    "adminPublicKey": {
+      "defaultValue": null,
+      "type": "String",
+      "metadata": {
+        "description": "Public key to be put in the authorized keys file in bastion host."
+      }
+    },
     "virtualNetworkName": {
       "defaultValue": "[parameters('environmentName')]",
       "type": "String",
@@ -29,24 +71,6 @@
       "metadata": {
         "description": "Name of public ip address."
       }
-    },
-    "publicIpAddressType": {
-      "value": "Dynamic"
-    },
-    "publicIpAddressSku": {
-      "value": "Basic"
-    },
-    "virtualMachineSize": {
-      "value": "Standard_D2_v3"
-    },
-    "osDiskType": {
-      "value": "StandardSSD_LRS"
-    },
-    "adminUsername": {
-      "value": null
-    },
-    "adminPublicKey": {
-      "value": null
     },
     "virtualMachineName": {
       "defaultValue": "[parameters('environmentName')]",
