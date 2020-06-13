@@ -49,6 +49,24 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
 
 ---
 
+## Azure quickstart template with tags inherited from resource group
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploytags.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png" />
+</a>
+
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploytags.json" target="_blank">
+    <img src="http://armviz.io/visualizebutton.png"/>
+</a>
+
+1. This template is same as above, except, it will to inherit the tags owner and enddate from resource group.
+2. This would be useful if you are using this template to create multiple environments or if multiple people are using it in a single subscription.
+3. The tags would help in automating clean up scripts.
+
+:warning: If you are using this template for one off testing, it is better to delete the resource group at the end of the test. :warning:
+
+---
+
 ## Azure quickstart template for cluster connectivity manager
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazureccmdeploy.json" target="_blank">
@@ -59,7 +77,7 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-1. This template is same as above, except, it creates a security group which only allows port 22 and 443 access to networkAccessCIDR for the created virtual network.
+1. This template is same the first one, except, it creates a security group which only allows port 22 and 443 access to networkAccessCIDR for the created virtual network.
 2. Magic SSO will not work because of the air gapped installation of the clusters.
 
 ---
