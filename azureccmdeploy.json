@@ -37,6 +37,20 @@
         "description": "Name of Microsoft Storage Account."
       }
     },
+    "privateEndpointNameForStorageAccount": {
+      "defaultValue": "[parameters('environmentName')]",
+      "type": "String",
+      "metadata": {
+        "description": "Name of Microsoft Storage Account Private Endpoint."
+      }
+    },
+    "privateEndpointConnectionForStorageAccount": {
+      "defaultValue": "[parameters('environmentName')]",
+      "type": "String",
+      "metadata": {
+        "description": "Name of Microsoft Storage Account Private Endpoint Connection."
+      }
+    },
     "dataAccessIdentityName": {
       "defaultValue": "[concat(parameters('environmentName'), '-DataAccessIdentity')]",
       "type": "String",
@@ -190,6 +204,124 @@
             }
           }
         ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2018-09-01",
+      "name": "privatelink.dfs.core.windows.net",
+      "location": "global",
+      "tags": {
+        "owner": "ganeshk@cloudera.com"
+      },
+      "properties": {
+        "maxNumberOfRecordSets": 25000,
+        "maxNumberOfVirtualNetworkLinks": 1000,
+        "maxNumberOfVirtualNetworkLinksWithRegistration": 100,
+        "numberOfRecordSets": 2,
+        "numberOfVirtualNetworkLinks": 1,
+        "numberOfVirtualNetworkLinksWithRegistration": 0,
+        "provisioningState": "Succeeded"
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2018-09-01",
+      "name": "[concat('privatelink.dfs.core.windows.net/', parameters('privateEndpointNameForStorageAccount'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.dfs.core.windows.net')]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "aRecords": [
+          {
+            "ipv4Address": "10.2.0.4"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/SOA",
+      "apiVersion": "2018-09-01",
+      "name": "[concat('privatelink.dfs.core.windows.net', '/@')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.dfs.core.windows.net')]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "soaRecord": {
+          "email": "azureprivatedns-host.microsoft.com",
+          "expireTime": 2419200,
+          "host": "azureprivatedns.net",
+          "refreshTime": 3600,
+          "retryTime": 300,
+          "serialNumber": 1,
+          "minimumTtl": 300
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2018-09-01",
+      "name": "[concat('privatelink.dfs.core.windows.net', '/4ejgpjbrzejzu')]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.dfs.core.windows.net')]"
+      ],
+      "properties": {
+        "registrationEnabled": false,
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2020-04-01",
+      "name": "[parameters('privateEndpointNameForStorageAccount')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('privateEndpointNameForStorageAccount')]",
+            "properties": {
+              "privateLinkServiceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+              "groupIds": [
+                "dfs"
+              ]
+            }
+          }
+        ],
+        "subnet": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'default')]"
+        },
+        "customDnsConfigs": [
+          {
+            "fqdn": "[concat(parameters('storageAccountName'), '.dfs.core.windows.net')]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/privateEndpointConnections",
+      "apiVersion": "2019-06-01",
+      "name": "[parameters('privateEndpointConnectionForStorageAccount')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "privateEndpoint": {
+          "id": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointNameForStorageAccount'))]"
+        },
+        "privateLinkServiceConnectionState": {
+          "status": "Approved",
+          "description": "Auto-Approved",
+          "actionRequired": "None"
+        }
       }
     },
     {
