@@ -297,7 +297,7 @@
           }
         ],
         "subnet": {
-          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'default')]"
+          "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '/subnets/default'))]"
         },
         "customDnsConfigs": [
           {
