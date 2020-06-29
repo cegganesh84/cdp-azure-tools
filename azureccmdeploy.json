@@ -220,6 +220,7 @@
       "properties": {
         "privateLinkServiceConnections": [
           {
+            "id": "[concat(resourceGroup().id, '/providers/Microsoft.Network/privateEndpoints/privateLinkServiceConnections/', parameters('privateEndpointNameForStorageAccount'))]",
             "name": "[parameters('privateEndpointNameForStorageAccount')]",
             "properties": {
               "privateLinkServiceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
