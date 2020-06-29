@@ -245,7 +245,7 @@
       "apiVersion": "2019-06-01",
       "name": "[concat(parameters('storageAccountName'), '/', parameters('privateEndpointConnectionForStorageAccount'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointNameForStorageAccount'))]"
       ],
       "properties": {
         "privateEndpoint": {
