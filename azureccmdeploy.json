@@ -215,8 +215,7 @@
       "name": "[parameters('privateEndpointNameForStorageAccount')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
       ],
       "properties": {
         "privateLinkServiceConnections": [
