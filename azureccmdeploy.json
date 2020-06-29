@@ -241,24 +241,6 @@
       }
     },
     {
-      "type": "Microsoft.Storage/storageAccounts/privateEndpointConnections",
-      "apiVersion": "2019-06-01",
-      "name": "[concat(parameters('storageAccountName'), '/', parameters('privateEndpointConnectionForStorageAccount'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointNameForStorageAccount'))]"
-      ],
-      "properties": {
-        "privateEndpoint": {
-          "id": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointNameForStorageAccount'))]"
-        },
-        "privateLinkServiceConnectionState": {
-          "status": "Approved",
-          "description": "Auto-Approved",
-          "actionRequired": "None"
-        }
-      }
-    },
-    {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "name": "[parameters('dataAccessIdentityName')]",
