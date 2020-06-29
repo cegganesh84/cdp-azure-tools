@@ -259,6 +259,22 @@
       "location": "global"
     },
     {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2018-09-01",
+      "name": "[concat('privatelink.dfs.core.windows.net', '/', 'A')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.dfs.core.windows.net')]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "aRecords": [
+          {
+            "ipv4Address": "10.2.0.4"
+          }
+        ]
+      }
+    },
+    {
       "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
       "apiVersion": "2018-09-01",
       "name": "[concat('privatelink.dfs.core.windows.net', '/4ejgpjbrzejzu')]",
