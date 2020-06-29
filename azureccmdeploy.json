@@ -101,19 +101,10 @@
         "subnets": [
           {
             "name": "default",
-            "serviceEndpoints": [
-              {
-                "service": "Microsoft.Storage"
-              },
-              {
-                "service": "Microsoft.Sql"
-              }
-            ],
             "properties": {
               "addressPrefix": "10.2.0.0/24",
               "delegations": [],
-              "privateEndpointNetworkPolicies": "Enabled",
-              "privateLinkServiceNetworkPolicies": "Enabled"
+              "privateEndpointNetworkPolicies": "Disabled"
             }
           }
         ],
@@ -132,17 +123,8 @@
       ],
       "properties": {
         "addressPrefix": "10.2.0.0/24",
-        "serviceEndpoints": [
-          {
-            "service": "Microsoft.Storage"
-          },
-          {
-            "service": "Microsoft.Sql"
-          }
-        ],
         "delegations": [],
-        "privateEndpointNetworkPolicies": "Enabled",
-        "privateLinkServiceNetworkPolicies": "Enabled"
+        "privateEndpointNetworkPolicies": "Disabled"
       }
     },
     {
