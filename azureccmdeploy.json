@@ -220,7 +220,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.dfs.core.windows.net')]"
       ],
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "privateDnsZoneConfigs": [
           {
