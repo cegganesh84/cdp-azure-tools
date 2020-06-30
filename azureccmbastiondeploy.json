@@ -389,9 +389,15 @@
         "isHnsEnabled": true,
         "networkAcls": {
           "bypass": "AzureServices",
-          "virtualNetworkRules": [],
+          "virtualNetworkRules": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '/subnets/default')]",
+              "action": "Allow",
+              "state": "Succeeded"
+            }
+          ],
           "ipRules": [],
-          "defaultAction": "Allow"
+          "defaultAction": "Deny"
         },
         "supportsHttpsTrafficOnly": true,
         "encryption": {
