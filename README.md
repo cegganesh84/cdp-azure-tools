@@ -15,17 +15,6 @@ ARM template that deploys essential Azure resources for Cloudera CDP environment
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-ARM template to deploy essential Azure resources except vnet (considering vnet is already created)
-
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploy-no-vnet.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png" />
-</a>
-
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploy-no-vnet.json" target="_blank">
-    <img src="http://armviz.io/visualizebutton.png"/>
-</a>
-
 ---
 
 **Azure RM templates does not support role assignments at a scope other than resource group. So the
@@ -114,6 +103,17 @@ az role assignment create --assignee <prinicipal-id> --role 'ba92f5b4-2d11-453d-
 ssh -i adminPrivateKey -CND 1080 adminUsername@publicIpAddress
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --user-data-dir="$HOME/chrome-with-proxy" --proxy-server="socks5://localhost:1080"
 ```
+
+## ARM template to deploy essential Azure resources except vnet (considering vnet is already created)
+
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploy-no-vnet.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png" />
+</a>
+
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcegganesh84%2Fcdp-azure-tools%2Fmaster%2Fazuredeploy-no-vnet.json" target="_blank">
+    <img src="http://armviz.io/visualizebutton.png"/>
+</a>
 
 # Find CB image container name
 
