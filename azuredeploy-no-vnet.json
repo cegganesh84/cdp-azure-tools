@@ -51,65 +51,6 @@
     "ManagedIdentityOperator": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'f1a07417-d97a-45cb-824c-7a7467783830')]",
     "VMContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '9980e02c-c2be-4d73-94e8-173b1dc7cf3c')]"
   },
-    "resources": [
-    {
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2019-09-01",
-      "name": "[parameters('virtualNetworkName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "10.2.0.0/16"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "default",
-            "properties": {
-              "addressPrefix": "10.2.0.0/24",
-              "serviceEndpoints": [
-                {
-                  "service": "Microsoft.Storage"
-                },
-                {
-                  "service": "Microsoft.Sql"
-                }
-              ],
-              "delegations": [],
-              "privateEndpointNetworkPolicies": "Enabled",
-              "privateLinkServiceNetworkPolicies": "Enabled"
-            }
-          }
-        ],
-        "virtualNetworkPeerings": [],
-        "enableDdosProtection": false,
-        "enableVmProtection": false
-      }
-    },
-    {
-      "type": "Microsoft.Network/virtualNetworks/subnets",
-      "apiVersion": "2019-09-01",
-      "name": "[concat(parameters('virtualNetworkName'), '/default')]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-      ],
-      "properties": {
-        "addressPrefix": "10.2.0.0/24",
-        "serviceEndpoints": [
-          {
-            "service": "Microsoft.Storage"
-          },
-          {
-            "service": "Microsoft.Sql"
-          }
-        ],
-        "delegations": [],
-        "privateEndpointNetworkPolicies": "Enabled",
-        "privateLinkServiceNetworkPolicies": "Enabled"
-      }
-    },
     {
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
