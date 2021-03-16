@@ -78,7 +78,7 @@
           {
             "name": "default",
             "properties": {
-              "addressPrefix": "10.2.0.0/24",
+              "addressPrefix": "10.2.0.0/20",
               "serviceEndpoints": [
                 {
                   "service": "Microsoft.Storage"
@@ -111,7 +111,7 @@
         "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
       ],
       "properties": {
-        "addressPrefix": "10.2.0.0/24",
+        "addressPrefix": "10.2.0.0/20",
         "serviceEndpoints": [
           {
             "service": "Microsoft.Storage"
