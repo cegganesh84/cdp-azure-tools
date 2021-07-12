@@ -67,14 +67,48 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.2.0.0/16"
+            "10.10.0.0/16"
           ]
         },
         "subnets": [
           {
-            "name": "default",
+            "name": "subnet1",
             "properties": {
-              "addressPrefix": "10.2.0.0/20",
+              "addressPrefix": "10.10.0.0/19",
+              "serviceEndpoints": [
+                {
+                  "service": "Microsoft.Storage"
+                },
+                {
+                  "service": "Microsoft.Sql"
+                }
+              ],
+              "delegations": [],
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Disabled"
+            }
+          },
+          {
+            "name": "subnet2",
+            "properties": {
+              "addressPrefix": "10.10.32.0/19",
+              "serviceEndpoints": [
+                {
+                  "service": "Microsoft.Storage"
+                },
+                {
+                  "service": "Microsoft.Sql"
+                }
+              ],
+              "delegations": [],
+              "privateEndpointNetworkPolicies": "Enabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+          },
+          {
+            "name": "subnet3",
+            "properties": {
+              "addressPrefix": "10.10.64.0/19",
               "serviceEndpoints": [
                 {
                   "service": "Microsoft.Storage"
@@ -92,29 +126,6 @@
         "virtualNetworkPeerings": [],
         "enableDdosProtection": false,
         "enableVmProtection": false
-      }
-    },
-    {
-      "type": "Microsoft.Network/virtualNetworks/subnets",
-      "apiVersion": "2019-09-01",
-      "name": "[concat(parameters('virtualNetworkName'), '/default')]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-      ],
-      "properties": {
-        "addressPrefix": "10.2.0.0/20",
-        "serviceEndpoints": [
-          {
-            "service": "Microsoft.Storage"
-          },
-          {
-            "service": "Microsoft.Sql"
-          }
-        ],
-        "delegations": [],
-        "privateEndpointNetworkPolicies": "Enabled",
-        "privateLinkServiceNetworkPolicies": "Enabled"
       }
     },
     {
@@ -215,6 +226,18 @@
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2019-04-01",
       "name": "[concat(parameters('storageAccountName'), '/default/logs')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "publicAccess": "None"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2019-04-01",
+      "name": "[concat(parameters('storageAccountName'), '/default/backups')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
